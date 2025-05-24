@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "./media/images/ByteRental_Logo2.png";
 import background from "./media/images/ByteRental_Logo.png";
+import { useNavigate } from "react-router-dom"; // Only added if needed for navigation
 
 const Hero = () => {
+    const [dropdownVisible, setDropdownVisible] = useState(false);
+    const navigate = useNavigate();
+
+    const toggleDropdown = () => {
+        setDropdownVisible((prev) => !prev);
+    };
+
     return (
         <section style={{
             minHeight: "100vh",
@@ -17,6 +25,7 @@ const Hero = () => {
             padding: "2rem",
             textAlign: "center"
         }}>
+            {/* Overlay */}
             <div style={{
                 position: "absolute",
                 top: 0,
@@ -28,6 +37,7 @@ const Hero = () => {
                 zIndex: 0
             }}></div>
 
+            {/* Navigation */}
             <nav style={{
                 position: "absolute",
                 top: 0,
@@ -40,15 +50,22 @@ const Hero = () => {
             }}>
                 <img src={logo} alt="ByteRental Logo" style={{ height: "100px" }} />
                 <div style={{ position: "relative" }}>
-                    <div style={{
-                        padding: "0.5rem 1rem",
-                        fontSize: "1rem",
-                        borderRadius: "0.5rem",
-                        backgroundColor: "#2563eb",
-                        cursor: "pointer",
-                        userSelect: "none"
-                    }}>
+                    <div
+                        onClick={toggleDropdown}
+                        style={{
+                            padding: "0.5rem 1rem",
+                            fontSize: "1rem",
+                            borderRadius: "0.5rem",
+                            backgroundColor: "#2563eb",
+                            cursor: "pointer",
+                            userSelect: "none"
+                        }}
+                    >
                         Login
+                    </div>
+
+                    {/* Dropdown with vertical layout */}
+                    {dropdownVisible && (
                         <div style={{
                             position: "absolute",
                             top: "100%",
@@ -58,54 +75,38 @@ const Hero = () => {
                             borderRadius: "0.5rem",
                             marginTop: "0.5rem",
                             boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                            display: "none"
-                        }}
-                            className="dropdown-content"
-                        >
-                            <div style={{ padding: "0.5rem 1rem", cursor: "pointer" }}>User Login</div>
-                            <div style={{ padding: "0.5rem 1rem", cursor: "pointer" }}>Admin Login</div>
+                            zIndex: 10
+                        }}>
+                            <div
+                                style={{ padding: "0.5rem 1rem", cursor: "pointer", whiteSpace: "nowrap" }}
+                                onClick={() => navigate("/userlogin")}
+                            >
+                                User Login
+                            </div>
+                            <div
+                                style={{ padding: "0.5rem 1rem", cursor: "pointer", whiteSpace: "nowrap" }}
+                                onClick={() => navigate("/adminlogin")}
+                            >
+                                Admin Login
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </nav>
 
+            {/* Hero Text */}
             <div style={{ position: "relative", zIndex: 1 }}>
-                {/* <img
-                    src={logo}
-                    alt="Byte Rental Hub Logo"
-                    style={{ width: "100px", margin: "0 auto 20px" }}
-                /> */}
                 <h1 style={{ fontSize: "2.5rem", fontWeight: "bold", marginBottom: "1rem" }}>
                     Welcome to Byte Rental Hub
                 </h1>
                 <p style={{ fontSize: "1.2rem", color: "#d1d5db", marginBottom: "2rem" }}>
                     Rent high-performance laptops for work, gaming, or study.
                 </p>
-                {/* <button style={{
-                    backgroundColor: "#2563eb",
-                    color: "white",
-                    padding: "0.75rem 1.5rem",
-                    fontSize: "1rem",
-                    borderRadius: "0.5rem",
-                    border: "none",
-                    cursor: "pointer"
-                }}>
-                    Explore Rentals
-                </button> */}
-
                 <p style={{ fontSize: "1.2rem", color: "#d1d5db", marginBottom: "2rem" }}>
-                    ByteRental was built with a mission to make tech access easy, affordable, and reliable. Whether you're a student, developer, freelancer, or business professional—we’ve got the right device for you, when you need it.
+                    ByteRental was built with a mission to make tech access easy, affordable, and reliable.
+                    Whether you're a student, developer, freelancer, or business professional—we’ve got the right device for you, when you need it.
                 </p>
             </div>
-
-            <style>{`
-        .dropdown-content {
-          display: none;
-        }
-        div:hover > .dropdown-content {
-          display: block;
-        }
-      `}</style>
         </section>
     );
 };
